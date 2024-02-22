@@ -1,6 +1,6 @@
 <template>
+    <h2>{{pokemonDataStore}}</h2>
   <main>
-    <h1>Je fait une pause</h1>
     <div class="cards" v v-for="(pokemonData, index) in pokemonData" :key="index">
         <h3>{{pokemonData.name}}</h3>
         <img :src="pokemonData.image" width="80%" />
@@ -17,27 +17,42 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            pokemonFilter : '',
-            pokemonData : ''
+            pokemonFilter : this.$store.state.pokemonName,
+            pokemonData : '',
+            pokename : this.$store.state.pokemonName,
+            filterPokemon : [this.$store.state.pokemonName]
         }
     },
 
 
     computed: {
+        pokeName(){
+            return this.$store.state.pokemonName
+        },
+
         ...mapState([
         'title',
         'count',
-        'user'
+        'user',
+        'pokemonName',
+        'pokemonDataStore'
     ]),
 
     },
 
     watch : {
+        '$store.state.pokemonName'(newVal, oldVal) {
+                if(newVal !== oldVal) {
+                    console.log(this.pokemonData)
+                    console.log(this.$store.state.pokemonName)
+                    this.getPokemon()
+                }
+        }
 
     },
 
     methods: {
-       getPokemon() {
+       getPokemon() {    
         axios.get('https://pokebuildapi.fr/api/v1/pokemon')
                 .then(response=> {
                     console.log(response.data)
@@ -48,10 +63,15 @@ export default {
                     // en cas d’échec de la requête
                     console.log(error);
                 });
-       }
+       },
+
+       
     },
 
     beforeUpdate() {
+        this.pokesearch;
+        
+        
     },
     mounted() {
         this.getPokemon();

@@ -3,36 +3,68 @@
     <h1>Pokédex</h1>
     <div id="searchDiv">
         <input type="search" id="searchBar" placeholder="Rechercher un pokémon" v-model="name">
-        <button id="searchIcon">🔍</button>
+        <button id="searchIcon" @input="getPokemonWhitName()">🔍</button>
     </div>
   </header>
-  <p>{{name}}</p>
+ 
 
   
 </template>
 
 <script>
-
+import axios from 'axios';
 
 export default {
     data() {
         return {
-            name: '',
+            name : '',
+            searchName: '',
             
         }
     },
 
     computed: {
-        
+       
+    },
+
+    methods: {
+        getPokemonWhitName() {    
+            axios.get('https://pokebuildapi.fr/api/v1/pokemon/'+ this.$store.state.pokemonName)
+                .then(response=> {
+                    this.searchName = response.data
+                    console.log(response.data)
+                    this.$store.commit('SET_POKEMON_DATA_STORE', response.data);
+                    
+                })
+                    // en cas de réussite de la requête
+                .catch(function (error) {
+                    // en cas d’échec de la requête
+                    console.log(error);
+                });
+       }
+    },
+
+    watch: {
+        '$store.state.pokemonName'(newVal, oldVal) {
+                if(newVal !== oldVal) {
+                    console.log(this.pokemonData)
+                    console.log(this.$store.state.pokemonName)
+                    this.getPokemonWhitName()
+                }
+        }
     },
 
        
     
     
     beforeUpdate() {
-      
+        
         this.$store.commit('SET_POKEMON', this.name);
-    } 
+    },
+    
+    mounted() {
+        this.getPokemonWhitName()
+    }
    
 
 
