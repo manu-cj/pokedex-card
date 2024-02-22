@@ -1,14 +1,17 @@
 <template>
 <searchBar></searchBar>
+<pokedexCards></pokedexCards>
 </template>
 
 <script>
 import searchBar from './components/searchBar.vue';
+import pokedexCards from './components/pokedexCards.vue';
 
 export default {
   name: 'App',
   components: {
-    searchBar
+    searchBar,
+    pokedexCards
   }
 }
 </script>

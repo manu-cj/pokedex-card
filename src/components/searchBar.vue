@@ -1,19 +1,45 @@
-vue.<template>
+<template>
   <header>
     <h1>Pokédex</h1>
     <div id="searchDiv">
-        <input type="search" id="searchBar" placeholder="Rechercher un pokémon">
+        <input type="search" id="searchBar" placeholder="Rechercher un pokémon" v-model="name">
         <button id="searchIcon">🔍</button>
     </div>
   </header>
+  <p>{{name}}</p>
+
+  
 </template>
 
 <script>
-export default {
 
+
+export default {
+    data() {
+        return {
+            name: '',
+            
+        }
+    },
+
+    computed: {
+        
+    },
+
+       
+    
+    
+    beforeUpdate() {
+      
+        this.$store.commit('SET_POKEMON', this.name);
+    } 
+   
+
+
+
+    
 }
 </script>
-
 <style>
 header {
     width: 100%;
