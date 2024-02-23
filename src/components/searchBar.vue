@@ -47,7 +47,6 @@ export default {
     watch: {
         '$store.state.pokemonName'(newVal, oldVal) {
                 if(newVal !== oldVal) {
-                    console.log(this.pokemonData)
                     console.log(this.$store.state.pokemonName)
                     this.getPokemonWhitName()
                 }

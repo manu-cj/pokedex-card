@@ -4,7 +4,7 @@ export default createStore({
   state: {
       title: 0,
       pokemonName : 'pikachu',
-      pokemonDataStore : []
+      pokemonDataStore : ''
     
   },
   getters: {
