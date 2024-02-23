@@ -1,9 +1,9 @@
 <template>
 <main v-if="pokemonDataStore === ''">
-        <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index">
-            <h3>{{pokemonData.name}}</h3>
-            <img :src="pokemonData.image" width="80%" />
-        </div>   
+    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index">
+        <h3>{{pokemonData.name}}</h3>
+        <img :src="pokemonData.image" width="80%" />
+    </div>
 </main>
 <main v-if="pokemonDataStore !== ''">
     <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index">
@@ -26,7 +26,7 @@ export default {
             pokemonFilter: this.$store.state.pokemonName,
             pokemonData: '',
             pokename: this.$store.state.pokemonName,
-            filterPokemon: [this.$store.state.pokemonDataStore]
+            filterPokemon: ''
         }
     },
 
@@ -52,7 +52,9 @@ export default {
                 console.log(this.$store.state.pokemonName)
                 this.filterPokemon = [this.$store.state.pokemonDataStore]
             }
-        }
+        },
+
+        
 
     },
 
@@ -73,7 +75,7 @@ export default {
     },
 
     beforeUpdate() {
-        
+
         this.pokeName
 
     },
