@@ -1,12 +1,14 @@
 <template>
-<main>
+<main v-if="pokemonDataStore === ''">
+        <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index">
+            <h3>{{pokemonData.name}}</h3>
+            <img :src="pokemonData.image" width="80%" />
+        </div>   
+</main>
+<main v-if="pokemonDataStore !== ''">
     <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index">
         <h3>{{filterPokemon.name}}</h3>
         <img :src="filterPokemon.image" width="80%" />
-    </div>
-    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index">
-        <h3>{{pokemonData.name}}</h3>
-        <img :src="pokemonData.image" width="80%" />
     </div>
 
 </main>

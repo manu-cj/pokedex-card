@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
       title: 0,
-      pokemonName : 'pikachu',
+      pokemonName : null,
       pokemonDataStore : ''
     
   },
