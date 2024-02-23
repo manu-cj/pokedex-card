@@ -2,8 +2,8 @@
 <main v-if="pokemonDataStore === ''">
     
     <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'" :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
-        <div class="idPokedex">{{pokemonData.pokedexId}}</div>
-        <h3>{{pokemonData.name}}</h3>
+        <div class="idPokedex"><h2>{{pokemonData.pokedexId}}</h2></div>
+        <h3 class="pokemonName">{{pokemonData.name}}</h3>
         <img :src="pokemonData.image" width="60%" />
         <div class="display-types">
             <div class="pokemonType" v-for="type in pokemonData.apiTypes" :key="type">
@@ -11,7 +11,7 @@
             </div>
         </div>  
         <div class="stats">
-            <p> PV :{{pokemonData.stats.HP}}</p>
+            <p> PV : {{pokemonData.stats.HP}}</p>
             <p> Attaque: {{pokemonData.stats.attack}}</p>
             <p> Defense: {{pokemonData.stats.defense}}</p>
             <p> Attaque spécial: {{ pokemonData.stats.special_attack }} </p>
@@ -31,7 +31,7 @@
             <p :class="type.name">{{type.name}}</p>
         </div>
         <div class="stats">
-            <p> PV :{{filterPokemon.stats.HP}}</p>
+            <p> PV : {{filterPokemon.stats.HP}}</p>
             <p> Attaque: {{filterPokemon.stats.attack}}</p>
             <p> Defense: {{filterPokemon.stats.defense}}</p>
             <p> Attaque spécial: {{ filterPokemon.stats.special_attack }} </p>
@@ -128,14 +128,14 @@ main {
     justify-content: space-between;
     align-content: space-between;
     text-align: center;
+    background-color: rgba(226, 223, 223, 0.89);
 }
 
 .cards {
     width: 20%;
-    height: 400px;
+    height: 500px;
     color: aliceblue;
     background-color: rgb(162, 168, 168);
-    border: 3px green solid;
     border-radius: 5%;
     margin: 30px;
     display: flex;
@@ -147,87 +147,101 @@ main {
 }
 
 .poisonCards {
-    border: solid purple;
+    border: 5px solid purple;
     background-color: rgba(128, 0, 128, 0.192);
     
 }
 .planteCards {
-    border: solid green;
+    border: 5px solid green;
     background-color: rgba(48, 245, 30, 0.288);
 }
 .acierCards {
-    border: solid gray;
+    border: 5px solid gray;
     background-color: rgba(85, 87, 84, 0.288);
 }
 .combatCards {
-    border: solid orangered;
+    border: 5px solid orangered;
     background-color: rgba(255, 136, 0, 0.671);
 }
 .dragonCards {
-    border: solid rgb(60, 95, 211);
+    border: 5px solid rgb(60, 95, 211);
     background-color: rgba(60, 95, 211, 0.438);
 }
 .eauCards {
-    border:  solid rgb(0, 134, 223);
+    border: 5px  solid rgb(0, 134, 223);
     background-color: rgba(5, 132, 206, 0.438);
 }
 .électrikCards {
-    border:  solid rgb(219, 223, 0);
+    border: 5px  solid rgb(219, 223, 0);
     background-color: rgba(255, 251, 5, 0.212);
 }
 
 .féeCards {
-    border:  solid rgb(230, 129, 240);
+    border: 5px  solid rgb(230, 129, 240);
     background-color: rgba(228, 169, 223, 0.212);
 }
 
 .feuCards {
-    border: solid rgb(219, 45, 45);
+    border: 5px solid rgb(219, 45, 45);
     background-color: rgba(248, 0, 0, 0.411);
 }
 
 .glaceCards {
-    border: solid rgb(45, 219, 210);
+    border: 5px solid rgb(45, 219, 210);
     background-color: rgba(5, 255, 255, 0.411);
 }
 
 .insecteCards {
-    border: solid rgb(102, 199, 45);
+    border: 5px solid rgb(102, 199, 45);
     background-color: rgba(109, 168, 49, 0.411);
 }
 
 .normalCards {
-    border: solid rgb(173, 173, 173);
-    background-color: rgba(194, 194, 194, 0.411);
+    border: 5px solid rgb(255, 255, 255);
+    background-color: rgba(150, 147, 147, 0.685);
 }
 
 .psyCards {
-    border: solid rgb(181, 1, 187);
+    border: 5px solid rgb(181, 1, 187);
     background-color: rgba(219, 0, 219, 0.411);
 }
 
 .rocheCards {
-    border: solid rgb(105, 91, 70);
+    border: 5px solid rgb(105, 91, 70);
     background-color: rgba(133, 91, 37, 0.411);
 }
 .solCards {
-    border: solid rgb(131, 78, 0);
+    border: 5px solid rgb(131, 78, 0);
     background-color: rgba(190, 108, 0, 0.644);
 }
 
 .spectreCards {
-    border: solid rgb(72, 0, 131);
+    border: 5px solid rgb(72, 0, 131);
     background-color: rgba(98, 0, 190, 0.644);
 }
 
 .ténèbresCards {
-    border: solid rgb(49, 48, 49);
+    border: 5px solid rgb(49, 48, 49);
     background-color: rgba(0, 0, 0, 0.678);
 }
 
 .volCards {
-    border: solid rgb(94, 155, 179);
+    border: 5px solid rgb(94, 155, 179);
     background-color: rgba(145, 233, 255, 0.678);
+}
+
+.idPokedex {
+    width: 90%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding-right: 10%;
+    padding: 2%;
+}
+
+.pokemonName {
+    width: 100%;
+    background-color: rgba(104, 104, 104, 0.411);
 }
 
 .display-types {
@@ -238,9 +252,22 @@ main {
     justify-content: space-around;
 }
 
+.stats {
+    width: 100%;
+    height: 60%;
+    margin-top: 5%;
+    background-color: rgba(104, 104, 104, 0.411);
+    border-top: 4px rgb(255, 255, 255) ridge;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-weight: 600;
+}
+
 .pokemonType {
     width: 40%;
-    border: 2px green solid;
+    border: 2px rgb(255, 255, 255) solid;
     border-radius: 10px;
     
 }
@@ -248,26 +275,31 @@ main {
 .Plante {
     background-color: green;
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Poison {
     background-color: rgb(130, 10, 167);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Acier {
     background-color: rgb(143, 179, 185);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Combat {
     background-color: orangered;
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Dragon {
     background-color: rgb(60, 95, 211);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Eau {
@@ -278,60 +310,72 @@ main {
 .Électrik {
     background-color: rgb(219, 206, 17);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Fée {
     background-color: rgb(219, 130, 219);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Feu {
     background-color: red;
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Glace {
     background-color: aqua;
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Insecte {
     background-color: rgb(96, 129, 45);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Normal {
     background-color: grey;
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Psy {
     background-color: rgb(176, 44, 216);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Roche {
     background-color: rgb(129, 105, 68);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Sol {
     background-color: rgb(207, 132, 82);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Spectre {
     background-color: rgb(75, 3, 143);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Ténèbres {
     background-color: rgb(48, 46, 46);
     font-weight: 600;
+    border-radius: 10px;
 }
 
 .Vol {
     background-color: rgb(159, 203, 245);
     font-weight: 600;
+    border-radius: 10px;
 }
 </style>
