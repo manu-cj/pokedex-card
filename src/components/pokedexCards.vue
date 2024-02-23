@@ -1,7 +1,8 @@
 <template>
 <main v-if="pokemonDataStore === ''">
     
-    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'" :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
+    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'"
+     :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
         <div class="idPokedex"><h2>{{pokemonData.pokedexId}}</h2></div>
         <h3 class="pokemonName">{{pokemonData.name}}</h3>
         <img :src="pokemonData.image" width="60%" />
@@ -23,12 +24,15 @@
     </div>
 </main>
 <main v-if="pokemonDataStore !== ''">
-    <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index">
-        <div class="idPokedex">{{filterPokemon.pokedexId}}</div>
-        <h3>{{filterPokemon.name}}</h3>
+    <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index" :class="filterPokemon.apiTypes[0].name.toLowerCase()+'Cards'"
+    :style="{backgroundImage: 'url('+filterPokemon.apiTypes[0].image+')'}">
+    <div class="idPokedex"><h2>{{filterPokemon.pokedexId}}</h2></div>
+        <h3  class="pokemonName">{{filterPokemon.name}}</h3>
         <img :src="filterPokemon.image" width="60%" />
-        <div class="pokemonType" v-for="type in filterPokemon.apiTypes" :key="type">
-            <p :class="type.name">{{type.name}}</p>
+        <div class="display-types">
+            <div class="pokemonType" v-for="type in filterPokemon.apiTypes" :key="type">
+                <p :class="type.name">{{type.name}}</p>
+            </div>
         </div>
         <div class="stats">
             <p> PV : {{filterPokemon.stats.HP}}</p>
