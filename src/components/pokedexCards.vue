@@ -1,6 +1,7 @@
 <template>
 <main v-if="pokemonDataStore === ''">
-    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index">
+    
+    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'" :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
         <div class="idPokedex">{{pokemonData.pokedexId}}</div>
         <h3>{{pokemonData.name}}</h3>
         <img :src="pokemonData.image" width="60%" />
@@ -17,6 +18,8 @@
             <p> Defense spécial: {{ pokemonData.stats.special_defense }} </p>
             <p> Vitesse: {{ pokemonData.stats.speed}}</p>
         </div>
+        
+       
     </div>
 </main>
 <main v-if="pokemonDataStore !== ''">
@@ -130,11 +133,101 @@ main {
 .cards {
     width: 20%;
     height: 400px;
+    color: aliceblue;
+    background-color: rgb(162, 168, 168);
     border: 3px green solid;
+    border-radius: 5%;
     margin: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+
+.poisonCards {
+    border: solid purple;
+    background-color: rgba(128, 0, 128, 0.192);
+    
+}
+.planteCards {
+    border: solid green;
+    background-color: rgba(48, 245, 30, 0.288);
+}
+.acierCards {
+    border: solid gray;
+    background-color: rgba(85, 87, 84, 0.288);
+}
+.combatCards {
+    border: solid orangered;
+    background-color: rgba(255, 136, 0, 0.671);
+}
+.dragonCards {
+    border: solid rgb(60, 95, 211);
+    background-color: rgba(60, 95, 211, 0.438);
+}
+.eauCards {
+    border:  solid rgb(0, 134, 223);
+    background-color: rgba(5, 132, 206, 0.438);
+}
+.électrikCards {
+    border:  solid rgb(219, 223, 0);
+    background-color: rgba(255, 251, 5, 0.212);
+}
+
+.féeCards {
+    border:  solid rgb(230, 129, 240);
+    background-color: rgba(228, 169, 223, 0.212);
+}
+
+.feuCards {
+    border: solid rgb(219, 45, 45);
+    background-color: rgba(248, 0, 0, 0.411);
+}
+
+.glaceCards {
+    border: solid rgb(45, 219, 210);
+    background-color: rgba(5, 255, 255, 0.411);
+}
+
+.insecteCards {
+    border: solid rgb(102, 199, 45);
+    background-color: rgba(109, 168, 49, 0.411);
+}
+
+.normalCards {
+    border: solid rgb(173, 173, 173);
+    background-color: rgba(194, 194, 194, 0.411);
+}
+
+.psyCards {
+    border: solid rgb(181, 1, 187);
+    background-color: rgba(219, 0, 219, 0.411);
+}
+
+.rocheCards {
+    border: solid rgb(105, 91, 70);
+    background-color: rgba(133, 91, 37, 0.411);
+}
+.solCards {
+    border: solid rgb(131, 78, 0);
+    background-color: rgba(190, 108, 0, 0.644);
+}
+
+.spectreCards {
+    border: solid rgb(72, 0, 131);
+    background-color: rgba(98, 0, 190, 0.644);
+}
+
+.ténèbresCards {
+    border: solid rgb(49, 48, 49);
+    background-color: rgba(0, 0, 0, 0.678);
+}
+
+.volCards {
+    border: solid rgb(94, 155, 179);
+    background-color: rgba(145, 233, 255, 0.678);
 }
 
 .display-types {
@@ -182,8 +275,8 @@ main {
     font-weight: 600;
 }
 
-.Electrik {
-    background-color: yellow;
+.Électrik {
+    background-color: rgb(219, 206, 17);
     font-weight: 600;
 }
 
@@ -203,7 +296,7 @@ main {
 }
 
 .Insecte {
-    background-color: greenyellow;
+    background-color: rgb(96, 129, 45);
     font-weight: 600;
 }
 
