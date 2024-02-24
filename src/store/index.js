@@ -9,6 +9,9 @@ export default createStore({
     
   },
   getters: {
+    pokemonName: state=> {
+      return state.pokemonName;
+    }
   },
   mutations: {
     SET_TITLE(state, payload){

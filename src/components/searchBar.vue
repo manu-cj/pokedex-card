@@ -2,7 +2,7 @@
 <header>
     <h1>Pokédex</h1>
     <div id="searchDiv">
-        <input type="search" id="searchBar" placeholder="Rechercher un pokémon" v-model="name">
+        <input type="search" id="searchBar" placeholder="Rechercher un pokémon" v-model="name" @input=" sendDataToParent()">
         <button id="searchIcon" @input="getPokemonWhitName()">🔍</button>
     </div>
     <div class="main-filtre-div" v-if="pokeFiltre !== '' ">
@@ -51,6 +51,7 @@ export default {
     methods: {
         getPokemonWhitName() {
             if (this.name !== '') {
+                this.$store.commit('SET_POKEMON', this.name);
                 axios.get('https://pokebuildapi.fr/api/v1/pokemon/' + this.$store.state.pokemonName)
                     .then(response => {
                         this.searchName = response.data
@@ -75,8 +76,11 @@ export default {
             if(this.name === ''){
                 return this.pokeFiltre = ''
             }
-           
-        }
+        },
+        sendDataToParent() {
+      // Emit a custom event with the data
+      this.$emit('child-to-parent', this.name);
+    }
 
     },
 
@@ -90,6 +94,11 @@ export default {
 
             }
         },
+        name(newVal, oldVal){
+            if(newVal !== oldVal){
+                this.$store.commit('SET_POKEMON', this.name);
+            }
+        }
         
     },
 

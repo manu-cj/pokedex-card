@@ -1,5 +1,6 @@
 <template>
-<main v-if="pokemonDataStore === ''">
+    
+<main v-if="filterPokemon === ''">
     <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'"
      :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
         <div class="idPokedex"><h3 class="pokemonName">{{pokemonData.name}}</h3><h2>{{pokemonData.pokedexId}}</h2></div>
@@ -19,7 +20,7 @@
         </div>
     </div>
 </main>
-<main v-if="pokemonDataStore !== ''">
+<main v-if="filterPokemon !== ''">
     <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index" :class="filterPokemon.apiTypes[0].name.toLowerCase()+'Cards'"
     :style="{backgroundImage: 'url('+filterPokemon.apiTypes[0].image+')'}">
     <div class="idPokedex"><h3 class="pokemonName">{{filterPokemon.name}}</h3><h2>{{filterPokemon.pokedexId}}</h2></div>
@@ -45,7 +46,8 @@
 
 <script>
 import {
-    mapState
+    mapState,
+    mapGetters
 } from 'vuex'
 import axios from 'axios'
 
@@ -54,7 +56,7 @@ export default {
         return {
             pokemonFilter: this.$store.state.pokemonName,
             pokemonData: '',
-            pokename: this.$store.state.pokemonName,
+            pokename: this.propsData,
             filterPokemon: '',
             pokeliste: [],
             poke:this.$store.state.pokelistes
@@ -77,16 +79,28 @@ export default {
             'pokemonDataStore',
             'pokelistes'
         ]),
+        ...mapGetters(['pokemonName'])
 
     },
+     props: {
+        propsData: String
+     },
 
     watch: {
-        'this.$store.state.pokeName'(newVal, oldVal) {
-            if (newVal !== oldVal) {
+        '$store.state.pokemonName'(newVal, oldVal) {
+            if (newVal != oldVal) {
                 this.pokename =  newVal
-                this.filteredPokemons()
+                
             }
         },
+        pokename(newVal, oldVal){
+            if(this.pokename !== ''){
+                this.filteredPokemons()
+            }
+            if(oldVal !== newVal){
+                this.filteredPokemons()
+            }
+        }
 
         
 
@@ -120,12 +134,15 @@ export default {
                 });
         },
         filteredPokemons(){
-            if(this.pokename !== '') {
+            
+            if(this.pokename !== null){
+                if(this.pokename !== '') {
                 const filterText = this.pokename.toLowerCase();
-          return this.filterPokemon = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
+                return this.filterPokemon = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
             }
-            if(this.pokename === ''){
-                return this.pokeFiltre = ''
+            }
+            if(this.pokename === null){
+                return this.filterPokemon = '';
             }
            
         }
@@ -135,10 +152,13 @@ export default {
     beforeUpdate() {
         this.poke = this.$store.state.pokelistes
         this.pokeName
+        
+        
 
     },
     mounted() {
         this.getPokemon();
+        this.filteredPokemons();
     }
 
 }

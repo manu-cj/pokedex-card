@@ -1,6 +1,7 @@
 <template>
-<searchBar></searchBar>
-<pokedexCards></pokedexCards>
+<searchBar @child-to-parent="receiveDataFromChild"></searchBar>
+{{ dataName }}
+<pokedexCards :props-data="dataName"></pokedexCards>
 </template>
 
 <script>
@@ -8,6 +9,19 @@ import searchBar from './components/searchBar.vue';
 import pokedexCards from './components/pokedexCards.vue';
 
 export default {
+  data() {
+        return {
+            dataName: '',
+            
+
+        }
+    },
+    methods: {
+    receiveDataFromChild(data) {
+      // Handle the received data in the parent component
+      this.dataName = data;
+    }
+  },
   name: 'App',
   components: {
     searchBar,
