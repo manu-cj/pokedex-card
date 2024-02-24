@@ -2,21 +2,21 @@
 <header>
     <h1>Pokédex</h1>
     <div id="searchDiv">
-        <input type="search" id="searchBar" placeholder="Rechercher un pokémon" v-model="name" @input=" sendDataToParent()">
+        <input type="search" id="searchBar" placeholder="Rechercher un pokémon" v-model="name" @input=" sendDataToParent(), searchActive()" @focusout="searchInactive()">
         <button id="searchIcon" @input="getPokemonWhitName()">🔍</button>
     </div>
-    <div class="main-filtre-div" v-if="pokeFiltre !== '' ">
+    <div id="main-filtre-div" class="main-filtre-div" v-if="pokeFiltre !== '' ">
         <div class="main-filtre-div" v-if="pokeFiltre.length >= 3">
         <div class="filtre-div"   v-for="filtre in pokeFiltre.slice(0,3)" :key="filtre" @click="this.name = filtre.name"> 
                 <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
         </div>
     </div>
-    <div class="main-filtre-div" v-if="pokeFiltre.length === 2">
+    <div id="main-filtre-div" class="main-filtre-div" v-if="pokeFiltre.length === 2">
         <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,2)" :key="filtre" @click="this.name = filtre.name"> 
                 <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
         </div>
     </div>
-    <div class="main-filtre-div" v-if="pokeFiltre.length === 1">
+    <div id="main-filtre-div" class="main-filtre-div" v-if="pokeFiltre.length === 1">
         <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,1)" :key="filtre" @click="this.name = filtre.name"> 
                 <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
         </div>
@@ -80,7 +80,21 @@ export default {
         sendDataToParent() {
       // Emit a custom event with the data
       this.$emit('child-to-parent', this.name);
+    },
+    searchActive(){
+        if (this.name.length > 0 ) {
+            document.getElementById('main-filtre-div').style.opacity = 1;
+        }
+        
+    },
+    searchInactive(){
+        if (this.name.length > 0 ) {
+            document.getElementById('main-filtre-div').style.opacity = 0;
+        }
+        
     }
+        
+        
 
     },
 
@@ -121,7 +135,7 @@ export default {
 <style>
 header {
     width: 100%;
-    height: 250px;
+    height: 150px;
     background-color: teal;
     color: whitesmoke;
     display: flex;
@@ -129,6 +143,8 @@ header {
     align-content: center;
     align-items: center;
     justify-content: space-evenly;
+    position: fixed;
+    z-index: 1;
 }
 
 #searchDiv {
@@ -162,7 +178,9 @@ header {
     border-radius: 0 5px 5px 0;
 
 }
-
+#main-filtre-div {
+    opacity: 0;
+}
 .main-filtre-div {
     width: 310px;
     background-color: aliceblue;
@@ -178,7 +196,7 @@ header {
 
 .filtre-div {
     width: 100%;
-    height: 40px;
+    height: 20px;
     background-color: aliceblue;
     border-bottom: 1px  black solid;
     border-radius: 8px;

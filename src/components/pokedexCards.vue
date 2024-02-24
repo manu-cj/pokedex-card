@@ -144,8 +144,9 @@ export default {
             if (this.pokename === null) {
                 return this.filterPokemon = '';
             }
+        },
 
-        }
+        
 
     },
 
@@ -156,7 +157,7 @@ export default {
     },
     mounted() {
         this.getPokemon();
-        this.filteredPokemons();
+        
     }
 
 }
@@ -173,6 +174,8 @@ main {
     align-content: space-between;
     text-align: center;
     background-color: rgba(226, 223, 223, 0.89);
+    z-index: 0;
+    margin-top: 200px;
 }
 
 .cards {
@@ -192,10 +195,11 @@ main {
     transform: scale(1);
     -webkit-transition: .3s ease-in-out;
     transition: .3s ease-in-out;
+    
 }
 
 .cards:hover {
-    filter: brightness(1.30);
+    filter: brightness(1.40);
 
     opacity: 1;
     -webkit-transform: scale(1.05);
@@ -209,8 +213,10 @@ main {
 @keyframes brillance {
     from {
         box-shadow: 0 0 6px 3px #fff,
-            0 0 14px 9px #0ff,
-            0 0 12px 8px #f0f;
+        0 0 16px 10px rgba(216, 123, 216, 0.521),
+            0 0 14px 9px #0ff;
+            filter: brightness(1);
+            
     }
 
     50% {
@@ -218,12 +224,14 @@ main {
         0 0 16px 10px rgb(0, 167, 117),
             0 0 14px 9px #0ff
         ;
+        filter: brightness(1.30);
     }
 
     to {
         box-shadow: 0 0 6px 3px #fff,
         0 0 14px 9px rgb(0, 167, 117),
             0 0 10px 6px #0ff;
+            filter: brightness(1);
         
     }
 }
@@ -464,7 +472,7 @@ main {
 }
 
 .Vol {
-    background-color: rgb(159, 203, 245);
+    background-color: rgb(70, 104, 136);
     font-weight: 600;
     border-radius: 10px;
 }
