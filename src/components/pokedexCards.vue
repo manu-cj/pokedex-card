@@ -1,15 +1,16 @@
 <template>
-    
 <main v-if="filterPokemon === ''">
-    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'"
-     :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
-        <div class="idPokedex"><h3 class="pokemonName">{{pokemonData.name}}</h3><h2>{{pokemonData.pokedexId}}</h2></div>
+    <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'" :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
+        <div class="idPokedex">
+            <h3 class="pokemonName">{{pokemonData.name}}</h3>
+            <h2>{{pokemonData.pokedexId}}</h2>
+        </div>
         <img :src="pokemonData.image" width="60%" />
         <div class="display-types">
             <div class="pokemonType" v-for="type in pokemonData.apiTypes" :key="type">
                 <p :class="type.name" :style="{color: 'white'}">{{type.name}}</p>
             </div>
-        </div>  
+        </div>
         <div class="stats">
             <p> PV : {{pokemonData.stats.HP}}</p>
             <p> Attaque: {{pokemonData.stats.attack}}</p>
@@ -21,10 +22,12 @@
     </div>
 </main>
 <main v-if="filterPokemon !== ''">
-    <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index" :class="filterPokemon.apiTypes[0].name.toLowerCase()+'Cards'"
-    :style="{backgroundImage: 'url('+filterPokemon.apiTypes[0].image+')'}">
-    <div class="idPokedex"><h3 class="pokemonName">{{filterPokemon.name}}</h3><h2>{{filterPokemon.pokedexId}}</h2></div>
-       
+    <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index" :class="filterPokemon.apiTypes[0].name.toLowerCase()+'Cards'" :style="{backgroundImage: 'url('+filterPokemon.apiTypes[0].image+')'}">
+        <div class="idPokedex">
+            <h3 class="pokemonName">{{filterPokemon.name}}</h3>
+            <h2>{{filterPokemon.pokedexId}}</h2>
+        </div>
+
         <img :src="filterPokemon.image" width="60%" />
         <div class="display-types">
             <div class="pokemonType" v-for="type in filterPokemon.apiTypes" :key="type">
@@ -59,10 +62,8 @@ export default {
             pokename: this.propsData,
             filterPokemon: '',
             pokeliste: [],
-            poke:this.$store.state.pokelistes
-            
-           
-            
+            poke: this.$store.state.pokelistes
+
         }
     },
 
@@ -82,27 +83,25 @@ export default {
         ...mapGetters(['pokemonName'])
 
     },
-     props: {
+    props: {
         propsData: String
-     },
+    },
 
     watch: {
         '$store.state.pokemonName'(newVal, oldVal) {
             if (newVal != oldVal) {
-                this.pokename =  newVal
-                
+                this.pokename = newVal
+
             }
         },
-        pokename(newVal, oldVal){
-            if(this.pokename !== ''){
+        pokename(newVal, oldVal) {
+            if (this.pokename !== '') {
                 this.filteredPokemons()
             }
-            if(oldVal !== newVal){
+            if (oldVal !== newVal) {
                 this.filteredPokemons()
             }
         }
-
-        
 
     },
 
@@ -112,20 +111,21 @@ export default {
                 .then(response => {
                     this.pokemonData = response.data
                     response.data.forEach(element => {
-                        this.pokeliste.push({'name': element.name,
-                                            'sprite': element.sprite,
+                        this.pokeliste.push({
+                            'name': element.name,
+                            'sprite': element.sprite,
+                        });
+                        this.pokelistes.push({
+                            'name': element.name,
+                            'sprite': element.sprite,
+                            'stats': element.stats,
+                            'apiTypes': element.apiTypes,
+                            'pokedexId': element.pokedexId,
+                            'image': element.image
+
+                        });
                     });
-                        this.pokelistes.push({'name': element.name,
-                                            'sprite': element.sprite,
-                                            'stats': element.stats,
-                                            'apiTypes': element.apiTypes,
-                                            'pokedexId': element.pokedexId,
-                                            'image': element.image
-                                            
-                                            
-                    });
-                    });
-                    
+
                 })
                 // en cas de réussite de la requête
                 .catch(function (error) {
@@ -133,18 +133,18 @@ export default {
                     console.log(error);
                 });
         },
-        filteredPokemons(){
-            
-            if(this.pokename !== null){
-                if(this.pokename !== '') {
-                const filterText = this.pokename.toLowerCase();
-                return this.filterPokemon = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
+        filteredPokemons() {
+
+            if (this.pokename !== null) {
+                if (this.pokename !== '') {
+                    const filterText = this.pokename.toLowerCase();
+                    return this.filterPokemon = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
+                }
             }
-            }
-            if(this.pokename === null){
+            if (this.pokename === null) {
                 return this.filterPokemon = '';
             }
-           
+
         }
 
     },
@@ -152,8 +152,6 @@ export default {
     beforeUpdate() {
         this.poke = this.$store.state.pokelistes
         this.pokeName
-        
-        
 
     },
     mounted() {
@@ -190,40 +188,84 @@ main {
     z-index: 0;
     background-repeat: no-repeat;
     background-size: 80%;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+.cards:hover {
+    filter: brightness(1.30);
+
+    opacity: 1;
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+    cursor: pointer;
+    animation: brillance 2.5s linear;
+    animation-iteration-count: infinite;
+
+}
+
+@keyframes brillance {
+    from {
+        box-shadow: 0 0 6px 3px #fff,
+            0 0 14px 9px #0ff,
+            0 0 12px 8px #f0f;
+    }
+
+    50% {
+        box-shadow:
+        0 0 16px 10px rgb(0, 167, 117),
+            0 0 14px 9px #0ff
+        ;
+    }
+
+    to {
+        box-shadow: 0 0 6px 3px #fff,
+        0 0 14px 9px rgb(0, 167, 117),
+            0 0 10px 6px #0ff;
+        
+    }
 }
 
 .poisonCards {
     border: 5px solid purple;
     background-color: rgba(128, 0, 128, 0.192);
-    
+
 }
+
 .planteCards {
     border: 5px solid green;
     background-color: rgba(48, 245, 30, 0.288);
 }
+
 .acierCards {
     border: 5px solid gray;
     background-color: rgba(85, 87, 84, 0.288);
 }
+
 .combatCards {
     border: 5px solid orangered;
     background-color: rgba(255, 136, 0, 0.671);
 }
+
 .dragonCards {
     border: 5px solid rgb(60, 95, 211);
     background-color: rgba(60, 95, 211, 0.438);
 }
+
 .eauCards {
-    border: 5px  solid rgb(0, 134, 223);
+    border: 5px solid rgb(0, 134, 223);
     background-color: rgba(5, 132, 206, 0.438);
 }
+
 .électrikCards {
-    border: 5px  solid rgb(219, 223, 0);
+    border: 5px solid rgb(219, 223, 0);
     background-color: rgba(255, 251, 5, 0.212);
 }
 
 .féeCards {
-    border: 5px  solid rgb(230, 129, 240);
+    border: 5px solid rgb(230, 129, 240);
     background-color: rgba(228, 169, 223, 0.212);
 }
 
@@ -256,6 +298,7 @@ main {
     border: 5px solid rgb(105, 91, 70);
     background-color: rgba(133, 91, 37, 0.411);
 }
+
 .solCards {
     border: 5px solid rgb(131, 78, 0);
     background-color: rgba(190, 108, 0, 0.644);
@@ -282,7 +325,7 @@ main {
     justify-content: space-between;
     align-items: end;
     padding-right: 10px;
-    
+
 }
 
 .pokemonName {
@@ -316,7 +359,7 @@ main {
     width: 40%;
     border: 2px rgb(255, 255, 255) solid;
     border-radius: 10px;
-    
+
 }
 
 .Plante {
