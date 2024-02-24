@@ -1,10 +1,8 @@
 <template>
 <main v-if="pokemonDataStore === ''">
-    
     <div class="cards" v-for="(pokemonData, index) in pokemonData" :key="index" :class="pokemonData.apiTypes[0].name.toLowerCase()+'Cards'"
      :style="{backgroundImage: 'url('+pokemonData.apiTypes[0].image+')'}">
-        <div class="idPokedex"><h2>{{pokemonData.pokedexId}}</h2></div>
-        <h3 class="pokemonName">{{pokemonData.name}}</h3>
+        <div class="idPokedex"><h3 class="pokemonName">{{pokemonData.name}}</h3><h2>{{pokemonData.pokedexId}}</h2></div>
         <img :src="pokemonData.image" width="60%" />
         <div class="display-types">
             <div class="pokemonType" v-for="type in pokemonData.apiTypes" :key="type">
@@ -19,15 +17,13 @@
             <p> Defense spécial: {{ pokemonData.stats.special_defense }} </p>
             <p> Vitesse: {{ pokemonData.stats.speed}}</p>
         </div>
-        
-       
     </div>
 </main>
 <main v-if="pokemonDataStore !== ''">
     <div class="cards" v-for="(filterPokemon, index) in filterPokemon" :key="index" :class="filterPokemon.apiTypes[0].name.toLowerCase()+'Cards'"
     :style="{backgroundImage: 'url('+filterPokemon.apiTypes[0].image+')'}">
-    <div class="idPokedex"><h2>{{filterPokemon.pokedexId}}</h2></div>
-        <h3  class="pokemonName">{{filterPokemon.name}}</h3>
+    <div class="idPokedex"><h3 class="pokemonName">{{filterPokemon.name}}</h3><h2>{{filterPokemon.pokedexId}}</h2></div>
+       
         <img :src="filterPokemon.image" width="60%" />
         <div class="display-types">
             <div class="pokemonType" v-for="type in filterPokemon.apiTypes" :key="type">
@@ -60,6 +56,8 @@ export default {
             pokemonData: '',
             pokename: this.$store.state.pokemonName,
             filterPokemon: '',
+            pokeliste: [],
+            poke:this.$store.state.pokelistes
             
            
             
@@ -76,17 +74,17 @@ export default {
             'count',
             'user',
             'pokemonName',
-            'pokemonDataStore'
+            'pokemonDataStore',
+            'pokelistes'
         ]),
 
     },
 
     watch: {
-        '$store.state.pokemonDataStore'(newVal, oldVal) {
+        'this.$store.state.pokeName'(newVal, oldVal) {
             if (newVal !== oldVal) {
-                console.log(this.pokemonData)
-                console.log(this.$store.state.pokemonName)
-                this.filterPokemon = [this.$store.state.pokemonDataStore]
+                this.pokename =  newVal
+                this.filteredPokemons()
             }
         },
 
@@ -98,8 +96,22 @@ export default {
         getPokemon() {
             axios.get('https://pokebuildapi.fr/api/v1/pokemon')
                 .then(response => {
-                    console.log(response.data)
                     this.pokemonData = response.data
+                    response.data.forEach(element => {
+                        this.pokeliste.push({'name': element.name,
+                                            'sprite': element.sprite,
+                    });
+                        this.pokelistes.push({'name': element.name,
+                                            'sprite': element.sprite,
+                                            'stats': element.stats,
+                                            'apiTypes': element.apiTypes,
+                                            'pokedexId': element.pokedexId,
+                                            'image': element.image
+                                            
+                                            
+                    });
+                    });
+                    
                 })
                 // en cas de réussite de la requête
                 .catch(function (error) {
@@ -107,11 +119,21 @@ export default {
                     console.log(error);
                 });
         },
+        filteredPokemons(){
+            if(this.pokename !== '') {
+                const filterText = this.pokename.toLowerCase();
+          return this.filterPokemon = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
+            }
+            if(this.pokename === ''){
+                return this.pokeFiltre = ''
+            }
+           
+        }
 
     },
 
     beforeUpdate() {
-
+        this.poke = this.$store.state.pokelistes
         this.pokeName
 
     },
@@ -235,16 +257,17 @@ main {
 }
 
 .idPokedex {
-    width: 90%;
+    width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: end;
-    padding-right: 10%;
-    padding: 2%;
+    padding-right: 10px;
+    
 }
 
 .pokemonName {
-    width: 100%;
+    width: 70%;
+    border-top-right-radius: 20px;
     background-color: rgba(104, 104, 104, 0.411);
 }
 
@@ -312,7 +335,7 @@ main {
 }
 
 .Électrik {
-    background-color: rgb(219, 206, 17);
+    background-color: rgb(177, 174, 1);
     font-weight: 600;
     border-radius: 10px;
 }

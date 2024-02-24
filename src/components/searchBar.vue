@@ -5,6 +5,24 @@
         <input type="search" id="searchBar" placeholder="Rechercher un pokémon" v-model="name">
         <button id="searchIcon" @input="getPokemonWhitName()">🔍</button>
     </div>
+    <div class="main-filtre-div" v-if="pokeFiltre !== '' ">
+        <div class="main-filtre-div" v-if="pokeFiltre.length >= 3">
+        <div class="filtre-div"   v-for="filtre in pokeFiltre.slice(0,3)" :key="filtre" @click="this.name = filtre.name"> 
+                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
+        </div>
+    </div>
+    <div class="main-filtre-div" v-if="pokeFiltre.length === 2">
+        <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,2)" :key="filtre" @click="this.name = filtre.name"> 
+                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
+        </div>
+    </div>
+    <div class="main-filtre-div" v-if="pokeFiltre.length === 1">
+        <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,1)" :key="filtre" @click="this.name = filtre.name"> 
+                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
+        </div>
+    </div>
+    </div>
+    
 </header>
 </template>
 
@@ -19,13 +37,16 @@ export default {
         return {
             name: '',
             searchName: '',
+            poke : this.$store.state.pokelistes,
+            pokeFiltre : ''
 
         }
     },
 
     computed: {
-
+        
     },
+    
 
     methods: {
         getPokemonWhitName() {
@@ -33,7 +54,6 @@ export default {
                 axios.get('https://pokebuildapi.fr/api/v1/pokemon/' + this.$store.state.pokemonName)
                     .then(response => {
                         this.searchName = response.data
-                        console.log(response.data)
                         this.$store.commit('SET_POKEMON_DATA_STORE', response.data);
 
                     })
@@ -46,6 +66,16 @@ export default {
             else {
                 this.$store.commit('SET_POKEMON_DATA_STORE', '');
             }
+        },
+        filteredPokemons(){
+            if(this.name !== '') {
+                const filterText = this.name.toLowerCase();
+          return this.pokeFiltre = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
+            }
+            if(this.name === ''){
+                return this.pokeFiltre = ''
+            }
+           
         }
 
     },
@@ -53,15 +83,14 @@ export default {
     watch: {
         '$store.state.pokemonName'(newVal, oldVal) {
             if (newVal !== oldVal) {
-                console.log(this.$store.state.pokemonName)
                 this.getPokemonWhitName()
             }
             if (newVal === '') {
                 this.$store.commit('SET_POKEMON', null);
 
             }
-
-        }
+        },
+        
     },
 
     beforeUpdate() {
@@ -69,6 +98,7 @@ export default {
         if (resolveTransitionHooks.name === '') {
             this.$store.commit('SET_POKEMON', null);
         }
+        this.filteredPokemons()
 
     },
 
@@ -82,7 +112,7 @@ export default {
 <style>
 header {
     width: 100%;
-    height: 150px;
+    height: 250px;
     background-color: teal;
     color: whitesmoke;
     display: flex;
@@ -97,7 +127,6 @@ header {
 }
 
 #searchBar {
-    width: 20%;
     padding: 5px;
     width: 300px;
     border-radius: 8px;
@@ -123,5 +152,39 @@ header {
     top: 3px;
     border-radius: 0 5px 5px 0;
 
+}
+
+.main-filtre-div {
+    width: 310px;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    border-radius: 8px;
+    
+
+}
+
+.filtre-div {
+    width: 100%;
+    height: 40px;
+    background-color: aliceblue;
+    border-bottom: 1px  black solid;
+    border-radius: 8px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    align-content: space-around;
+    padding: 6px;
+    font-weight: 600;
+}
+
+.filtre-div:hover {
+    cursor: pointer;
+    background-color: rgba(65, 65, 65, 0.205);
 }
 </style>

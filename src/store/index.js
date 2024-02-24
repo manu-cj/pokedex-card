@@ -4,7 +4,8 @@ export default createStore({
   state: {
       title: 0,
       pokemonName : null,
-      pokemonDataStore : ''
+      pokemonDataStore : '',
+      pokelistes : []
     
   },
   getters: {
@@ -18,6 +19,9 @@ export default createStore({
     },
     SET_POKEMON_DATA_STORE(state, payload1){
       state.pokemonDataStore = payload1
+    },
+    SET_POKELISTES(state, payload) {
+      state.pokelistes = [payload]
     }
   },
   actions: {
