@@ -7,22 +7,22 @@
     </div>
     <div id="main-filtre-div" class="main-filtre-div" v-if="pokeFiltre !== '' ">
         <div class="main-filtre-div" v-if="pokeFiltre.length >= 3">
-        <div class="filtre-div"   v-for="filtre in pokeFiltre.slice(0,3)" :key="filtre" @click="this.name = filtre.name"> 
-                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
+            <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,3)" :key="filtre" @click="this.name = filtre.name">
+                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">
+            </div>
+        </div>
+        <div class="main-filtre-div" v-if="pokeFiltre.length === 2">
+            <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,2)" :key="filtre" @click="this.name = filtre.name">
+                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">
+            </div>
+        </div>
+        <div class="main-filtre-div" v-if="pokeFiltre.length === 1">
+            <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,1)" :key="filtre" @click="this.name = filtre.name">
+                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">
+            </div>
         </div>
     </div>
-    <div id="main-filtre-div" class="main-filtre-div" v-if="pokeFiltre.length === 2">
-        <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,2)" :key="filtre" @click="this.name = filtre.name"> 
-                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
-        </div>
-    </div>
-    <div id="main-filtre-div" class="main-filtre-div" v-if="pokeFiltre.length === 1">
-        <div class="filtre-div" v-for="filtre in pokeFiltre.slice(0,1)" :key="filtre" @click="this.name = filtre.name"> 
-                <p @click="this.name = filtre.name">{{filtre.name}}</p><img :src="filtre.sprite" width="10%">   
-        </div>
-    </div>
-    </div>
-    
+
 </header>
 </template>
 
@@ -37,16 +37,15 @@ export default {
         return {
             name: '',
             searchName: '',
-            poke : this.$store.state.pokelistes,
-            pokeFiltre : ''
+            poke: this.$store.state.pokelistes,
+            pokeFiltre: ''
 
         }
     },
 
     computed: {
-        
+
     },
-    
 
     methods: {
         getPokemonWhitName() {
@@ -63,38 +62,35 @@ export default {
                         // en cas d’échec de la requête
                         console.log(error);
                     });
-            }
-            else {
+            } else {
                 this.$store.commit('SET_POKEMON_DATA_STORE', '');
             }
         },
-        filteredPokemons(){
-            if(this.name !== '') {
+        filteredPokemons() {
+            if (this.name !== '') {
                 const filterText = this.name.toLowerCase();
-          return this.pokeFiltre = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
+                return this.pokeFiltre = this.poke.filter(pokemon => pokemon.name.toLowerCase().includes(filterText));
             }
-            if(this.name === ''){
+            if (this.name === '') {
                 return this.pokeFiltre = ''
             }
         },
         sendDataToParent() {
-      // Emit a custom event with the data
-      this.$emit('child-to-parent', this.name);
-    },
-    searchActive(){
-        if (this.name.length > 0 ) {
-            document.getElementById('main-filtre-div').style.opacity = 1;
+            // Emit a custom event with the data
+            this.$emit('child-to-parent', this.name);
+        },
+        searchActive() {
+            if (this.name.length > 0) {
+                document.getElementById('main-filtre-div').style.opacity = 1;
+            }
+
+        },
+        searchInactive() {
+            if (this.name.length > 0) {
+                document.getElementById('main-filtre-div').style.opacity = 0;
+            }
+
         }
-        
-    },
-    searchInactive(){
-        if (this.name.length > 0 ) {
-            document.getElementById('main-filtre-div').style.opacity = 0;
-        }
-        
-    }
-        
-        
 
     },
 
@@ -108,12 +104,12 @@ export default {
 
             }
         },
-        name(newVal, oldVal){
-            if(newVal !== oldVal){
+        name(newVal, oldVal) {
+            if (newVal !== oldVal) {
                 this.$store.commit('SET_POKEMON', this.name);
             }
         }
-        
+
     },
 
     beforeUpdate() {
@@ -178,35 +174,42 @@ header {
     border-radius: 0 5px 5px 0;
 
 }
+
 #main-filtre-div {
     opacity: 0;
-}
-.main-filtre-div {
     width: 310px;
+    max-height: 60px;
     background-color: aliceblue;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.main-filtre-div {
+    width: 100%;
+    height: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     align-content: center;
     border-radius: 8px;
-    
 
 }
 
 .filtre-div {
     width: 100%;
-    height: 20px;
+    height: 100%;
     background-color: aliceblue;
-    border-bottom: 1px  black solid;
+    border-bottom: 1px black solid;
     border-radius: 8px;
     color: black;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    align-content: space-around;
-    padding: 6px;
+    align-content: center;
+    
     font-weight: 600;
 }
 

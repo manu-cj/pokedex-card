@@ -225,6 +225,8 @@ main {
             0 0 14px 9px #0ff
         ;
         filter: brightness(1.30);
+        -webkit-transform: scale(1.02);
+    transform: scale(1.02);
     }
 
     to {
