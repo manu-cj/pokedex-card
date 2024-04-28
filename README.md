@@ -1,24 +1,11 @@
-# pokedex-card
+# Pokedex-card
 
-## Project setup
-```
-npm install
-```
+Un pokédex affichant les pokémon sous form de cartes 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Objectif
 
-### Compiles and minifies for production
-```
-npm run build
-```
+L'objectif était d'apprendre à manipuler les api avec vue js et d'apprendre à filtrer les données à l'aide d'une barre de recherche.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Auteur
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+manu-cj
